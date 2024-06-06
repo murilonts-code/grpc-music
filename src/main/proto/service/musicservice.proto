@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpc.proto.service";
+option java_outer_classname = "MusicServiceProto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+message Music {
+  int64 id = 1;
+  string name = 2;
+  string artist = 3;
+}
+
+message MusicList {
+  repeated Music resultList = 1;
+  google.protobuf.Int64Value resultCount = 2;
+}
+
+service MusicService {
+  rpc create(Music) returns (Music) {};
+  rpc update(Music) returns (Music) {};
+  rpc findById(google.protobuf.Int64Value) returns (Music) {};
+  rpc list(google.protobuf.Empty) returns (MusicList) {};
+  rpc musicFromPlaylist(google.protobuf.Int64Value) returns (MusicList) {};
+  rpc delete(google.protobuf.Int64Value) returns (google.protobuf.BoolValue) {};
+}

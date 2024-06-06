@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpc.proto.service";
+option java_outer_classname = "PlaylistServiceProto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "service/userservice.proto";
+import "service/musicservice.proto";
+
+message Playlist {
+  int64 id = 1;
+  string name = 2;
+  UserId user = 3;
+}
+
+message PlaylistMusic {
+  int64 music_id = 1;
+  int64 playlist_id = 2;
+}
+
+message PlaylistList {
+  repeated Playlist resultList = 1;
+  google.protobuf.Int64Value resultCount = 2;
+}
+
+service PlaylistService {
+  rpc create(Playlist) returns (Playlist) {};
+  rpc addMusicToPlaylist(PlaylistMusic) returns (Playlist) {};
+  rpc update(Playlist) returns (Playlist) {};
+  rpc findById(google.protobuf.Int64Value) returns (Playlist) {};
+  rpc findByUserId(google.protobuf.Int64Value) returns (PlaylistList) {};
+  rpc list(google.protobuf.Empty) returns (PlaylistList) {};
+  rpc delete(google.protobuf.Int64Value) returns (google.protobuf.BoolValue) {};
+
+}
